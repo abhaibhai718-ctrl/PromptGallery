@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Prompt Library</title>
+    <style>
+        body { background-color: #121212; color: #fff; font-family: sans-serif; margin: 0; padding: 10px; }
+        h1 { text-align: center; font-size: 1.2rem; color: #888; margin-bottom: 20px;}
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        .card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            background: #222;
+            transition: transform 0.1s;
+        }
+        .card:active { transform: scale(0.98); }
+        .card img { width: 100%; height: 100%; object-fit: cover; }
+        .overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.8); color: white;
+            font-size: 12px; text-align: center; padding: 8px;
+            opacity: 0; transition: opacity 0.2s;
+        }
+        .card:hover .overlay { opacity: 1; }
+        @media (hover: none) { .overlay { opacity: 1; background: rgba(0,0,0,0.5); } }
+        
+        /* Toast */
+        #toast {
+            visibility: hidden; min-width: 200px; background-color: #4CAF50;
+            color: white; text-align: center; border-radius: 4px; padding: 12px;
+            position: fixed; z-index: 1; bottom: 30px; left: 50%;
+            transform: translateX(-50%); font-size: 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 2.0s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    </style>
+</head>
+<body>
+    <h1>My Prompts</h1>
+    <div class="gallery-grid">
+
+    <div class="card" onclick="copyPrompt(this, 'In the provided stadium photo, replace only the person on the RIGHT side of the image (the person wearing the Argentina jersey and holding the ticket) with the person from the uploaded face reference image.
+Perform a complete identity replacement while keeping everything else exactly the same:
+
+Same camera angle and distance
+Same framing and crop
+Same body posture and stance
+Same hand position holding the ticket
+Same head orientation and eye direction
+Same facial expression as the original right person
+Same stadium, crowd, stands, field, and lighting
+Same shadows, highlights, and color balance
+The replaced person must adopt the exact facial identity from the uploaded face reference image, including:
+
+Face shape and proportions
+Skin tone and natural texture
+Eyes, nose, lips, jawline
+Hairline and hairstyle adapted naturally to the scene
+Natural moustache and light facial hair as seen in the reference image
+Facial expression must remain identical to the original right person:
+
+Soft, neutral smile
+Relaxed lips
+Calm, proud fan expression
+No exaggerated emotion
+Outfit rule:
+
+Keep the outfit exactly the same as the original right person
+Argentina football jersey with light blue and white vertical stripes
+Same logo placement, colors, fabric texture, and fit
+Same visible accessories
+Do not change clothing color, style, or fit.
+Quality requirements:
+
+Photorealistic skin texture and pores
+Correct face-to-body proportions
+No beauty filters or smoothing
+No facial distortion or warping
+Seamless blending with realistic lighting and shadows
+Final output must look like a real, unedited stadium photograph, with only the person’s identity changed.
+No stylization. No cinematic effects. No artistic interpretation.')">
+        <img src="images/img_20251215_172114.jpg" alt="Prompt Image" loading="lazy">
+        <div class="overlay">Tap to Copy</div>
+    </div>
+    </div>
+    <div id="toast">Copied!</div>
+    <script>
+        function copyPrompt(card, text) {
+            navigator.clipboard.writeText(text).then(function() {
+                var x = document.getElementById("toast");
+                x.className = "show";
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 2300);
+            });
+        }
+    </script>
+</body>
+</html>
